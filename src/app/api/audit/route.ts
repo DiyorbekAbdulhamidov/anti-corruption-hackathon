@@ -1,44 +1,51 @@
 import { NextResponse } from 'next/server';
 
+// Xotiradagi vaqtinchalik baza (Live Demo uchun)
+let globalAuditLogs = [
+  { id: "REQ-9941", time: "11:40:12", module: "Online-Mahalla", inn: "312049811", entity: "Jismoniy shaxs", amount: "Yer ajratish", risk: "HIGH", ip: "213.230.76.43", status: "PROKURATURA", isNew: false },
+  { id: "REQ-9940", time: "11:35:50", module: "ERP Maktab", inn: "315059200", entity: "Jismoniy shaxs", amount: "1.0 stavka", risk: "MEDIUM", ip: "84.54.70.19", status: "ASOS KUTILMOQDA", isNew: false }
+];
+
+export async function GET() {
+  return NextResponse.json(globalAuditLogs);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { role, action, target_id } = body;
 
-    // 1-SENARIY: Hokim yordamchisi yer ajratmoqchi
-    if (role === 'hokim_yordamchisi' && action === 'yer_ajratish') {
-      return NextResponse.json({
-        status: 'DANGER',
-        code: 'LAND_FRAUD_DETECTED',
-        message: 'Tavsiya etilayotgan fuqaro nomida 1 ta avtomobil va ko\'chmas mulk aniqlandi. Ijtimoiy himoya mezonlariga to\'g\'ri kelmaydi!',
-        require_document: false, // Bunga umuman ruxsat yo'q
+    if (body.action === 'VERIFY_TRANSACTION') {
+      const { inn } = body;
+      if (inn === '305112233') {
+        return NextResponse.json({
+          status: 'DANGER',
+          riskLevel: 'CRITICAL',
+          message: 'Firma 3 kun oldin ochilgan. Soliq tarixi mavjud emas.',
+        });
+      }
+      return NextResponse.json({ status: 'SAFE' });
+    }
+
+    if (body.action === 'FORCE_SUBMIT') {
+      const { data } = body;
+      const newLog = {
+        id: `REQ-${Math.floor(1000 + Math.random() * 9000)}`,
+        time: new Date().toLocaleTimeString('uz-UZ', { hour12: false }),
+        ...data,
+        isNew: true
+      };
+      
+      globalAuditLogs.unshift(newLog); // Eng tepaga qo'shish
+
+      return NextResponse.json({ 
+        success: true, 
+        message: "Tranzaksiya server tomonidan bloklandi va logga yozildi",
+        security_token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.audit_${Date.now()}`
       });
     }
 
-    // 2-SENARIY: Maktab direktori xodim ishga olmoqchi
-    if (role === 'maktab_direktori' && action === 'kadr_qabul') {
-      return NextResponse.json({
-        status: 'DANGER',
-        code: 'FANTOM_EMPLOYEE',
-        message: 'Fuqaro ayni paytda davlat chegarasidan tashqarida (migratsiyada) ekanligi aniqlandi. O\'lik jonlarni ishga olish taqiqlanadi!',
-        require_document: true,
-      });
-    }
-
-    // 3-SENARIY: UzASBO - Buxgalteriya tranzaksiyasi
-    if (role === 'tashkilot_rahbari' && action === 'g'aznachilik_tolov') {
-      return NextResponse.json({
-        status: 'WARNING',
-        code: 'NEW_COMPANY_RISK',
-        message: 'Qabul qiluvchi MCHJ 3 kun oldin ochilgan. Soliq tarixi mavjud emas. Yuqori moliyaviy xavf!',
-        require_document: true,
-      });
-    }
-
-    // Default holat (Xavfsiz)
-    return NextResponse.json({ status: 'SAFE', message: 'Tranzaksiya xavfsiz' });
-
+    return NextResponse.json({ error: 'Ruxsatsiz so\'rov' }, { status: 403 });
   } catch (error) {
-    return NextResponse.json({ error: 'Server xatosi' }, { status: 500 });
+    return NextResponse.json({ error: 'Server halokati' }, { status: 500 });
   }
 }
