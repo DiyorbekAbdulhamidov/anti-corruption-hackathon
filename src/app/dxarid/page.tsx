@@ -15,7 +15,7 @@ export default function DxaridPortal() {
     <div className="min-h-screen bg-gray-100 p-10 font-sans">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md border-t-4 border-blue-600">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Davlat Xaridlari Portali (DXARID.UZ)</h1>
-        
+
         <div className="bg-blue-50 border border-blue-200 p-6 rounded-md mb-8">
           <h2 className="text-lg font-semibold text-blue-800 mb-4">Tasdiqlash kutilayotgan shartnoma:</h2>
           <ul className="space-y-3 text-gray-700">
@@ -29,7 +29,7 @@ export default function DxaridPortal() {
           <button className="px-6 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition">
             Bekor qilish
           </button>
-          <button 
+          <button
             onClick={handleApprove}
             className="px-6 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition"
           >
@@ -39,6 +39,7 @@ export default function DxaridPortal() {
       </div>
 
       {/* BIZNING INTEGRATSIYA QILINGAN XAVFSIZLIK QATLAMIMIZ SHU YERDA CHAQIRILADI */}
+      {/* @ts-ignore */}
       {isModalOpen && <SecurityModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
