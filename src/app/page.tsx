@@ -2,124 +2,141 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function OfficialLandingPage() {
-  const [scrolled, setScrolled] = useState(false);
+export default function GovernmentAuditGateway() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeNode, setActiveNode] = useState(0);
 
+  // Scroll monitoring
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Smooth scroll uchun global style qo'shamiz
+    document.documentElement.style.scrollBehavior = "smooth";
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.documentElement.style.scrollBehavior = "auto";
+    };
+  }, []);
+
+  // Simulate active node pinging
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveNode((prev) => (prev === 3 ? 0 : prev + 1));
+    }, 2500);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020813] text-slate-300 font-sans selection:bg-blue-900 selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#070b14] text-slate-300 font-sans selection:bg-blue-800 selection:text-white overflow-x-hidden">
 
-      {/* Tizimning orqa fonidagi murakkab kiber-chizmalar */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-20">
-        <div className="absolute top-0 left-[20%] w-px h-full bg-gradient-to-b from-transparent via-blue-500/50 to-transparent"></div>
-        <div className="absolute top-0 left-[50%] w-px h-full bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent"></div>
-        <div className="absolute top-0 left-[80%] w-px h-full bg-gradient-to-b from-transparent via-blue-500/50 to-transparent"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
+      {/* Background Topology Grid */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-[0.15]">
+        <div className="absolute top-0 left-[20%] w-[1px] h-full bg-gradient-to-b from-[#070b14] via-blue-500/40 to-[#070b14]"></div>
+        <div className="absolute top-0 left-[50%] w-[1px] h-full bg-gradient-to-b from-[#070b14] via-cyan-500/20 to-[#070b14]"></div>
+        <div className="absolute top-0 left-[80%] w-[1px] h-full bg-gradient-to-b from-[#070b14] via-blue-500/40 to-[#070b14]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#070b14_100%)]"></div>
       </div>
 
-      {/* Rasmiy Davlat Navbar */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#050f24]/95 backdrop-blur-xl border-b border-blue-900/50 shadow-2xl py-3' : 'bg-transparent py-5 border-b border-slate-800/50'}`}>
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex justify-between items-center">
+      {/* Main Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#040811]/95 backdrop-blur-md border-b border-blue-900/30 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)]' : 'bg-transparent py-6 border-b border-white/5'}`}>
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 flex items-center justify-center rounded bg-blue-950 border border-blue-700/50 shadow-[0_0_15px_rgba(29,78,216,0.5)]">
-              <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+            <div className="w-11 h-11 flex items-center justify-center rounded-md bg-gradient-to-br from-blue-900 to-[#040811] border border-blue-700/40 shadow-inner">
+              <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
             </div>
             <div>
-              <span className="block font-black text-lg tracking-wide text-white uppercase">Yagona Kross-Audit Tizimi</span>
-              <span className="block text-[10px] text-blue-400 font-mono tracking-widest uppercase">Korrupsiyaga qarshi kurashish agentligi</span>
+              <span className="block font-bold text-lg text-white tracking-tight uppercase">Yagona Komplayens Ekotizimi</span>
+              <span className="block text-[9px] text-slate-500 font-mono tracking-[0.2em] uppercase mt-0.5">Davlat Ma'lumotlarini Qayta ishlash Markazi</span>
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8 text-[11px] font-bold tracking-widest uppercase text-slate-400">
-            <a href="#muammo" className="hover:text-blue-400 transition-colors">Tizim Maqsadi</a>
-            <a href="#algoritm" className="hover:text-blue-400 transition-colors">Ishlash Algoritmi</a>
-            <a href="#integratsiya" className="hover:text-blue-400 transition-colors">Integratsiya Modullari</a>
+          {/* ISHLAYDIGAN TUGMALAR */}
+          <div className="hidden lg:flex items-center gap-10 text-[11px] font-semibold tracking-widest uppercase text-slate-400 cursor-pointer">
+            <a href="#arxitektura" className="hover:text-blue-400 transition-colors">Arxitektura</a>
+            <a href="#metrikalar" className="hover:text-blue-400 transition-colors">Metrikalar</a>
+            <a href="#modullar" className="hover:text-blue-400 transition-colors">Vazirliklar Moduli</a>
           </div>
 
-          <div className="flex gap-4">
-            <Link href="/dashboard" className="hidden md:flex px-6 py-2.5 rounded border border-slate-700 bg-slate-900/50 hover:bg-slate-800 text-white font-bold text-xs tracking-wider transition-all items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> MONITORING
+          <div className="flex gap-3">
+            <Link href="/dashboard" className="hidden md:flex px-5 py-2 rounded-md bg-slate-800/40 hover:bg-slate-800 border border-slate-700/50 text-white font-medium text-[11px] tracking-wider transition-all items-center gap-2">
+              Monitoring paneli
             </Link>
-            <Link href="/portal" className="px-6 py-2.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wider shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all flex items-center gap-2">
-              SIMULYATOR <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+            <Link href="/portal" className="px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium text-[11px] tracking-wider shadow-[0_0_15px_rgba(37,99,235,0.3)] transition-all flex items-center gap-2">
+              Tizimga kirish <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
             </Link>
           </div>
         </div>
       </nav>
 
-      {/* Asosiy Hero (Tushuntirish) Section */}
-      <section className="relative z-10 pt-32 pb-16 lg:pt-40 lg:pb-24 px-6 lg:px-12 max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 border-b border-slate-800/50">
-        <div className="flex-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-blue-800/50 bg-blue-900/20 text-blue-400 text-[10px] font-bold tracking-widest uppercase mb-6 font-mono">
-            Loyihaning MVP Holati: Ishga Tayyor
+      {/* Hero Section */}
+      <section className="relative z-10 pt-36 pb-20 lg:pt-48 lg:pb-32 px-6 lg:px-12 max-w-[1440px] mx-auto flex flex-col lg:flex-row items-center gap-16 border-b border-white/5">
+        <div className="flex-1 w-full">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-blue-950/30 border border-blue-800/30 text-blue-400 text-[10px] font-mono tracking-widest uppercase mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span> G-Cloud infratuzilmasida ishga tushirilgan
           </div>
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-black text-white leading-[1.1] mb-6 tracking-tight">
-            Davlat portallaridagi <br /> korrupsion jinoyatlarni <span className="text-blue-500">API darajasida</span> bloklaymiz.
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight">
+            Davlat xaridlari va byudjet operatsiyalarini <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">real vaqt rejimida</span> audit qiling.
           </h1>
-          <p className="text-base text-slate-400 mb-8 max-w-2xl leading-relaxed text-justify">
-            O'zbekiston elektron hukumati yuzlab raqamli portallarga ega bo'lsada, oxirgi tasdiqlash jarayoni (inson omili) haligacha zaif nuqta bo'lib qolmoqda. Bizning <strong>Yagona Kross-Audit Tizimi</strong> UzASBO, ERP.Maktab va boshqa portallarga tashqi API shlyuz sifatida ulanib, amaldor E-imzo chekadigan soniyada ma'lumotlarni Soliq, FHDYo va Kadastr bazalari orqali avtomatik tekshirib, talon-torojlikning oldini oladi.
+          <p className="text-[15px] text-slate-400 mb-10 max-w-2xl leading-relaxed text-justify">
+            Biz "post-audit" (hodisadan keyingi tekshiruv) amaliyotidan butunlay voz kechamiz. Yagona Komplayens Ekotizimi — bu davlat portallariga integratsiya qilinadigan markaziy <code className="text-blue-300 bg-blue-900/20 px-1 py-0.5 rounded">API Gateway</code>. U tranzaksiyalarni elektron imzolanish bosqichidayoq to'xtatib, barcha davlat bazalari bo'ylab asinxron tekshiruv o'tkazadi va qonunbuzarlikni joyida bloklaydi.
           </p>
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="/portal" className="px-8 py-4 rounded bg-white text-black font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:bg-blue-50 transition-all flex items-center gap-2">
-              Tizim ishini ko'rish
+            <Link href="/portal" className="px-7 py-3.5 rounded-md bg-white text-slate-900 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all flex items-center gap-2">
+              Simulyatorni sinab ko'rish
             </Link>
-            <div className="flex items-center gap-3 px-6 py-3 rounded border border-slate-800 bg-slate-900/50 text-slate-300 font-mono text-xs">
-              <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              JWT Shifrlangan Integratsiya
+            <div className="flex items-center gap-2 px-5 py-3.5 rounded-md border border-slate-700/50 bg-[#0a1120] text-slate-400 font-mono text-[11px]">
+              <svg className="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+              RSA-2048 Shifrlash protokoli
             </div>
           </div>
         </div>
 
-        {/* Murakkab Arxitektura Vizuali */}
-        <div className="flex-1 w-full relative">
-          <div className="bg-[#050f24] border border-blue-900/50 rounded-lg p-6 shadow-[0_0_40px_rgba(29,78,216,0.15)] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl"></div>
-
+        {/* ID QO'SHILDI: arxitektura */}
+        <div id="arxitektura" className="flex-1 w-full relative scroll-mt-32">
+          <div className="bg-[#0a1120]/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-7 shadow-2xl relative">
             <div className="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Kross-Chek Algoritmi</span>
-              <span className="flex gap-1"><span className="w-2 h-2 rounded-full bg-slate-600"></span><span className="w-2 h-2 rounded-full bg-slate-600"></span><span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span></span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Asinxron Kross-Chek jarayoni (Log)</span>
+              <span className="text-[10px] font-mono text-emerald-400">Response: 12ms</span>
             </div>
 
-            <div className="space-y-4">
-              {/* Step 1 */}
+            <div className="space-y-5">
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded border border-slate-700 bg-slate-800 flex items-center justify-center text-xs font-bold text-white mt-1">1</div>
-                <div>
-                  <h4 className="text-white text-sm font-bold mb-1">So'rov: UzASBO</h4>
-                  <div className="bg-slate-900 border border-slate-800 rounded p-3 text-xs font-mono text-slate-400">
-                    <span className="text-pink-500">POST</span> /api/v1/transaction<br />
-                    "amount": 5450000000,<br />
-                    "target_inn": <span className="text-blue-400">"305112233"</span>
+                <div className="w-7 h-7 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] font-mono text-slate-300 mt-1">Req</div>
+                <div className="w-full">
+                  <h4 className="text-white text-[13px] font-medium mb-1">Source: <span className="text-blue-400">UzASBO Gateway</span></h4>
+                  <div className="bg-[#050810] border border-slate-800/80 rounded p-3 text-[11px] font-mono text-slate-500 leading-relaxed">
+                    <span className="text-fuchsia-400">POST</span> /api/v2/payment/verify<br />
+                    "amount": <span className="text-emerald-400">12,500,000,000 UZS</span><br />
+                    "receiver_inn": <span className="text-amber-400">"305112233"</span>
                   </div>
                 </div>
               </div>
-              {/* Arrow */}
-              <div className="ml-4 w-0.5 h-6 bg-gradient-to-b from-slate-700 to-blue-500"></div>
-              {/* Step 2 */}
+
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded border border-blue-700 bg-blue-900/50 flex items-center justify-center text-xs font-bold text-blue-400 mt-1 shadow-[0_0_10px_rgba(29,78,216,0.5)]">2</div>
+                <div className={`w-7 h-7 rounded flex items-center justify-center text-[10px] font-mono mt-1 transition-colors duration-300 ${activeNode === 0 ? 'bg-blue-900/50 border border-blue-500 text-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.3)]' : 'bg-slate-800 border border-slate-700 text-slate-500'}`}>Mid</div>
                 <div className="w-full">
-                  <h4 className="text-white text-sm font-bold mb-1">API Shlyuz (Bizning Tizim)</h4>
+                  <h4 className="text-white text-[13px] font-medium mb-1">Cross-Audit Shlyuzi (Promise.all)</h4>
                   <div className="grid grid-cols-2 gap-2 text-[10px] font-mono mt-2">
-                    <div className="bg-emerald-950/30 border border-emerald-900/50 text-emerald-400 p-2 rounded flex justify-between"><span>Soliq.uz</span><span>OK</span></div>
-                    <div className="bg-red-950/30 border border-red-900/50 text-red-400 p-2 rounded flex justify-between animate-pulse"><span>Statistika.uz</span><span>XAVF</span></div>
+                    <div className="bg-[#050810] border border-emerald-900/30 text-emerald-500/70 p-2 rounded flex justify-between items-center">
+                      <span>Soliq_Qo'mitasi</span>
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    <div className="bg-[#050810] border border-red-900/40 text-red-400 p-2 rounded flex justify-between items-center">
+                      <span>Adliya_Reyestri</span>
+                      <span className="animate-pulse">FAIL</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              {/* Arrow */}
-              <div className="ml-4 w-0.5 h-6 bg-gradient-to-b from-blue-500 to-red-500"></div>
-              {/* Step 3 */}
+
               <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded border border-red-700 bg-red-900/50 flex items-center justify-center text-xs font-bold text-red-400 mt-1">3</div>
+                <div className="w-7 h-7 rounded bg-red-900/20 border border-red-800 flex items-center justify-center text-[10px] font-mono text-red-500 mt-1">Res</div>
                 <div className="w-full">
-                  <h4 className="text-red-400 text-sm font-bold mb-1">Natija: Tranzaksiya Bloklandi</h4>
-                  <div className="bg-red-950/20 border border-red-900/30 rounded p-3 text-xs text-slate-300">
-                    Firma 3 kun oldin ochilgan. Soliq aylanmasi nolga teng. Komplayens nazorati oynasi chaqirildi.
+                  <h4 className="text-red-400 text-[13px] font-medium mb-1">Tranzaksiya Bloklandi (Status: 403)</h4>
+                  <div className="bg-[#050810] border border-red-900/30 rounded p-3 text-[11px] text-slate-400">
+                    <span className="text-red-400 font-mono">Error Code: COMP-08A.</span> Firma ta'sischisi xalqaro qidiruvda bo'lgan shaxslar ro'yxatida aniqlandi.
                   </div>
                 </div>
               </div>
@@ -128,100 +145,95 @@ export default function OfficialLandingPage() {
         </div>
       </section>
 
-      {/* Ma'lumotlar paneli */}
-      <section className="bg-[#030a18] border-b border-slate-800/50 relative z-10">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-10 grid grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
-            <div className="text-3xl font-black text-white mb-1">0.012<span className="text-blue-500 text-xl">s</span></div>
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Tekshiruv tezligi</div>
+      {/* ID QO'SHILDI: metrikalar */}
+      <section id="metrikalar" className="bg-[#040811] border-b border-white/5 relative z-10 scroll-mt-32">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-12 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 divide-x divide-slate-800/50">
+          <div className="pl-4">
+            <div className="text-3xl lg:text-4xl font-light text-white mb-1 tracking-tight">12<span className="text-blue-500 text-xl font-bold ml-1">ms</span></div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mt-2">O'rtacha kross-chek vaqti</div>
           </div>
-          <div>
-            <div className="text-3xl font-black text-white mb-1">4<span className="text-blue-500 text-xl">+</span></div>
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Davlat tizimiga integratsiya</div>
+          <div className="pl-8">
+            <div className="text-3xl lg:text-4xl font-light text-white mb-1 tracking-tight">Redis</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mt-2">Highload arxitektura keshi</div>
           </div>
-          <div>
-            <div className="text-3xl font-black text-white mb-1">100<span className="text-blue-500 text-xl">%</span></div>
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Avtomatlashtirilgan qaror</div>
+          <div className="pl-8">
+            <div className="text-3xl lg:text-4xl font-light text-white mb-1 tracking-tight">100<span className="text-blue-500 text-xl font-bold ml-1">%</span></div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mt-2">Inson omilidan xolislik</div>
           </div>
-          <div>
-            <div className="text-3xl font-black text-emerald-400 mb-1">JWT</div>
-            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Aylanib o'tish imkonsizligi</div>
+          <div className="pl-8">
+            <div className="text-3xl lg:text-4xl font-light text-white mb-1 tracking-tight">GovNet</div>
+            <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mt-2">Yopiq hukumat tarmog'i</div>
           </div>
         </div>
       </section>
 
-      {/* Integratsiya Modullari (Muammo va Yechim) */}
-      <section id="integratsiya" className="py-24 relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-        <div className="mb-16 border-l-4 border-blue-600 pl-6">
-          <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-2">Nazorat qilinadigan davlat ekotizimlari</h2>
-          <p className="text-slate-400 text-sm max-w-3xl">Tizim yagona dastur emas, u barcha platformalar kodiga o'rnatiladigan markaziy 'Microservice' (Mikroxizmat) hisoblanadi.</p>
+      {/* ID QO'SHILDI: modullar */}
+      <section id="modullar" className="py-24 relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 scroll-mt-32">
+        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-800 pb-8">
+          <div>
+            <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight mb-3">Idoraviy Izolyatsiyani Yo'q Qilish</h2>
+            <p className="text-slate-400 text-sm max-w-2xl">Mavjud ERP va portallar o'zaro ma'lumot almashmaydi. Yagona Komplayens Ekotizimi barcha platformalarni yagona nazorat nuqtasiga birlashtiradi.</p>
+          </div>
+          <div className="px-4 py-2 border border-blue-900/50 bg-blue-900/10 rounded text-[11px] font-mono text-blue-400">
+            Plug-and-play SDK orqali integratsiya
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Moliya */}
-          <div className="bg-[#050f24] border border-slate-800 p-8 rounded-lg relative overflow-hidden">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-blue-900/40 rounded border border-blue-800 flex items-center justify-center text-blue-500"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">MOLIYA VAZIRLIGI</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="bg-[#0a1120] border border-slate-800 hover:border-blue-700/50 p-7 rounded-xl transition-all group">
+            <div className="flex justify-between items-start mb-8">
+              <div className="text-slate-500 group-hover:text-blue-400 transition-colors">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Iqtisodiyot / Moliya</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">UzASBO va Davlat Xaridlari</h3>
-            <div className="text-sm text-slate-400 space-y-3 mt-4">
-              <p><span className="text-red-400 font-bold">Mavjud Muammo:</span> Byudjet pullari osonlik bilan "1 kunlik" obnal firmalarga o'tkazilmoqda.</p>
-              <p><span className="text-emerald-400 font-bold">Bizning Yechim:</span> G'aznachilikka yuborish tugmasi bosilganda, Soliq qo'mitasi bazasidan firmaning yoshi va aylanmasi tahlil qilinib, shubhali operatsiyalar joyida bloklanadi.</p>
-            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Davlat Xaridlari (UzASBO)</h3>
+            <p className="text-sm text-slate-400 mb-6 line-clamp-3">Pudratchining soliq qarzdorligi, ustav fondi hajmi va ta'sischilarining qora ro'yxatga tushmaganligi shartnoma imzolanishidan oldin avtomatik tekshiriladi.</p>
+            <div className="text-[10px] font-mono text-slate-500 pt-4 border-t border-slate-800">API Endpoint: /v1/finance/cross-check</div>
           </div>
 
-          {/* Ta'lim */}
-          <div className="bg-[#050f24] border border-slate-800 p-8 rounded-lg relative overflow-hidden">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-teal-900/40 rounded border border-teal-800 flex items-center justify-center text-teal-500"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" /></svg></div>
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">XALQ TA'LIMI VAZIRLIGI</span>
+          <div className="bg-[#0a1120] border border-slate-800 hover:border-teal-700/50 p-7 rounded-xl transition-all group">
+            <div className="flex justify-between items-start mb-8">
+              <div className="text-slate-500 group-hover:text-teal-400 transition-colors">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              </div>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Kadrlar / Mehnat</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Maktab ERP Kadrlar Tizimi</h3>
-            <div className="text-sm text-slate-400 space-y-3 mt-4">
-              <p><span className="text-red-400 font-bold">Mavjud Muammo:</span> Maktablarda xorijda yurgan qarindoshlarni (o'lik jonlar) ishga rasmiylashtirish.</p>
-              <p><span className="text-emerald-400 font-bold">Bizning Yechim:</span> Buyruq tasdiqlanayotganda, nomzodning JSHSHIR kodi DXX Chegara bazasi orqali tekshiriladi. Xorijda bo'lsa, tizim ishga olishni rad etadi.</p>
-            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">ERP Kadrlar Platformasi</h3>
+            <p className="text-sm text-slate-400 mb-6 line-clamp-3">Xodimni ishga qabul qilish buyrug'i shakllanayotganda, nomzodning O'zbekiston hududida ekanligi (DXX Chegara bazasi) va o'lmaganligi (FHDYo) tekshiriladi.</p>
+            <div className="text-[10px] font-mono text-slate-500 pt-4 border-t border-slate-800">API Endpoint: /v1/hr/identity-verify</div>
           </div>
 
-          {/* Mahallabay */}
-          <div className="bg-[#050f24] border border-slate-800 p-8 rounded-lg relative overflow-hidden">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-amber-900/40 rounded border border-amber-800 flex items-center justify-center text-amber-500"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div>
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">IJTIMOIY HIMOYA</span>
+          <div className="bg-[#0a1120] border border-slate-800 hover:border-amber-700/50 p-7 rounded-xl transition-all group">
+            <div className="flex justify-between items-start mb-8">
+              <div className="text-slate-500 group-hover:text-amber-400 transition-colors">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+              </div>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Ijtimoiy himoya</span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">Online-Mahalla Platformasi</h3>
-            <div className="text-sm text-slate-400 space-y-3 mt-4">
-              <p><span className="text-red-400 font-bold">Mavjud Muammo:</span> Hokim yordamchilari uyi va mashinasi bor boy fuqarolarga qalbaki tavsiyanoma asosida yer/subsidiya ajratmoqda.</p>
-              <p><span className="text-emerald-400 font-bold">Bizning Yechim:</span> Tavsiyanoma bosilganda, Kadastr va YHXX bazasidan mulkdorlik tekshiriladi va qonunbuzarlik prokuraturaga uzatiladi.</p>
-            </div>
-          </div>
-
-          {/* Tibbiyot */}
-          <div className="bg-[#050f24] border border-slate-800 p-8 rounded-lg relative overflow-hidden">
-            <div className="flex justify-between items-start mb-6">
-              <div className="w-12 h-12 bg-cyan-900/40 rounded border border-cyan-800 flex items-center justify-center text-cyan-500"><svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg></div>
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded">SOG'LIQNI SAQLASH VAZIRLIGI</span>
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">UzMED Elektron Poliklinika</h3>
-            <div className="text-sm text-slate-400 space-y-3 mt-4">
-              <p><span className="text-red-400 font-bold">Mavjud Muammo:</span> Vafot etgan bemorlar nomiga davlatning o'ta qimmat dorilari "berildi" deb soxta akt tuzilmoqda.</p>
-              <p><span className="text-emerald-400 font-bold">Bizning Yechim:</span> Bemorlar ro'yxati FHDYo o'lim dalolatnomalari kross-cheki orqali filtrlanadi. O'lik jonga dori yozish texnik jihatdan imkonsiz bo'ladi.</p>
-            </div>
+            <h3 className="text-lg font-semibold text-white mb-3">Subsidiya va Moddiy yordam</h3>
+            <p className="text-sm text-slate-400 mb-6 line-clamp-3">Hokim yordamchilari tomonidan tavsiyanoma berilishidan oldin, fuqaroning nomida qimmatbaho mulk yoki avtotransport mavjudligi (Kadastr/GAI) filtrlanadi.</p>
+            <div className="text-[10px] font-mono text-slate-500 pt-4 border-t border-slate-800">API Endpoint: /v1/social/asset-check</div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-[#020813] pt-16 pb-12 relative z-10 text-center">
-        <div className="max-w-[1400px] mx-auto px-6">
-          <h2 className="text-2xl font-black text-white mb-4 uppercase tracking-widest">O'zbekiston Elektron Hukumati <span className="text-blue-500">Kross-Audit Tizimi</span></h2>
-          <p className="text-slate-500 text-sm max-w-xl mx-auto mb-10">Biz shunchaki dastur yaratmadik. Biz huquqni qo'llash amaliyotini raqamlashtirdik. Qog'ozdagi byurokratiyani avtomatlashgan qat'iy mantiq bilan almashtirdik.</p>
-          <div className="flex justify-center gap-4">
-            <Link href="/portal" className="px-8 py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 shadow-lg text-xs uppercase tracking-widest transition-all">Simulyatorga Kirish</Link>
-            <Link href="/dashboard" className="px-8 py-3 border border-slate-700 text-slate-300 font-bold rounded hover:bg-slate-900 text-xs uppercase tracking-widest transition-all">Monitoring Markazi</Link>
+      <footer className="border-t border-white/10 bg-[#040811] pt-16 pb-12 relative z-10 text-center">
+        <div className="max-w-[1440px] mx-auto px-6">
+          <div className="w-12 h-12 mx-auto rounded-full bg-slate-800 flex items-center justify-center mb-6">
+            <span className="text-blue-400 font-bold text-xl leading-none">W</span>
           </div>
-          <p className="mt-16 text-[10px] font-mono text-slate-600 tracking-widest uppercase">© 2026 Webleaders.uz / KRYAT Loyihasi / Xakaton MVP Final</p>
+          <h2 className="text-xl font-bold text-white mb-3">Qog'ozdagi qonunlarni raqamli kodga aylantiramiz</h2>
+          <p className="text-slate-500 text-sm max-w-lg mx-auto mb-10">
+            Yagona Komplayens Ekotizimi — inson omilidan xolis bo'lgan, sof algoritmik adolat platformasi.
+          </p>
+          <div className="flex justify-center gap-4">
+            <Link href="/portal" className="px-6 py-2.5 bg-white text-slate-900 font-semibold rounded text-[11px] uppercase tracking-widest hover:bg-slate-200 transition-all">Tizimni ishga tushirish</Link>
+          </div>
+          <p className="mt-16 text-[10px] font-mono text-slate-600 tracking-widest uppercase">
+            © 2026 WEBLEADERS JAMOASI · ANTI-CORRUPTION HACKATHON
+          </p>
         </div>
       </footer>
     </div>

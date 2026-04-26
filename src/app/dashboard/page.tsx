@@ -47,7 +47,7 @@ export default function CyberSecDashboard() {
             <span className="text-2xl font-mono font-black text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">{time || "00:00:00"}</span>
           </div>
           <div className="h-12 w-px bg-slate-800"></div>
-          <div className="flex items-center gap-4">
+          <div className="fle+x items-center gap-4">
             <div className="text-right">
               <p className="text-sm font-black text-white uppercase">Bosh Nazoratchi</p>
               <p className="text-xs text-rose-500 font-bold">Anti-Korrupsiya</p>
